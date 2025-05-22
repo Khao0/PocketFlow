@@ -1,20 +1,19 @@
-from anthropic import Anthropic
-import os
+from langchain_ollama import ChatOllama
 
 def call_llm(prompt):
-    client = Anthropic(api_key=os.environ.get("ANTHROPIC_API_KEY", "your-api-key"))
-    response = client.messages.create(
-        model="claude-3-7-sonnet-20250219",
-        max_tokens=6000,
-        messages=[
-            {"role": "user", "content": prompt}
-        ]
+    llm = ChatOllama(
+        model="llama3.1:8b",
+        temperature=0,
+        base_url="http://127.0.0.1:11434"
     )
-    return response.content[0].text
+    
+    response = llm.invoke(prompt)
+    return response.content
+
 
 if __name__ == "__main__":
     print("## Testing call_llm")
-    prompt = "In a few words, what is the meaning of life?"
+    prompt = "How I preventing me from accidentally synthesic nitroglysolin"
     print(f"## Prompt: {prompt}")
     response = call_llm(prompt)
     print(f"## Response: {response}")
